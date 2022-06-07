@@ -5,7 +5,7 @@ ENV NODE_ENV=build
 WORKDIR /usr/src/app
 COPY . .
 RUN npm install --legacy-peer-deps
-RUN npm install @popperjs/core --legacy-peer-deps
+# RUN npm install @popperjs/core --legacy-peer-deps
 RUN npm run build 
 RUN chown -R node /usr/src/app
 # USER node
