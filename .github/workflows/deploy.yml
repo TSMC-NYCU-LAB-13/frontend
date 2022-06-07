@@ -27,7 +27,7 @@ jobs:
       id: build-image
       uses: redhat-actions/buildah-build@v2
       with:
-        image: frontend
+        image: quay.io/tsmc-nycu-lab-13/frontend
         # tags: latest ${{ github.sha }}
         tags: latest ${{ needs.shortsha.outputs.shortsha }}
         containerfiles: Dockerfile
