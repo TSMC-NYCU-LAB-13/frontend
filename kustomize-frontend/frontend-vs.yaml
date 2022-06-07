@@ -9,7 +9,19 @@ spec:
   gateways:
   - gke-gateway
   http:
-  - route:
+  - name: "backend-v1-routes"
+    match:
+    - uri:
+        prefix: "/api"
+    rewrite:
+      uri: "/api"
+    route:
+    - destination:
+        host: backend.tsmc-nycu-lab-13.svc.cluster.local
+        port:
+          number: 8080
+  - name: "frontend-v1-routes"
+    route:
     - destination:
         host: frontend.tsmc-nycu-lab-13.svc.cluster.local
         port:
