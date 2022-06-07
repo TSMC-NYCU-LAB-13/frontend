@@ -30,8 +30,9 @@ jobs:
         image: frontend
         # tags: latest ${{ github.sha }}
         tags: latest ${{ steps.build-image.outputs.tags }}
-        containerfiles: |
-          ./Dockerfile
+        containerfiles: Dockerfile
+        build-args: |
+          VUE_APP_BASEURL=${{ secrets.VUE_APP_BASEURL }}
     - name: Push To quay.io
       id: push-to-quay
       uses: redhat-actions/push-to-registry@v2
