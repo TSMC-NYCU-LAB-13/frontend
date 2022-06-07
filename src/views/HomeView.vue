@@ -59,8 +59,8 @@ statistics.value = (await api.getWeeklyStatistics(10)).data
 
 const selectedElement = ref({
   selected: false,
-  datasetIndex: 3,
-  index: 4
+  datasetIndex: 0,
+  index: 0
 })
 
 const selectedKeyword = computed(() => {
@@ -94,10 +94,9 @@ const options = ref({
   },
   maintainAspectRatio: false,
   onClick: async (e, elems) => {
-    console.log(elems)
     if (elems.length > 0 && (elems[0].element instanceof PointElement || elems[0].element instanceof BarElement)) {
       selectedElement.value.selected = true
-      selectedElement.value.datasetIndex = elems[0].datasetIndex
+      selectedElement.value.datasetIndex = elems[0].datasetIndex % statistics.value.length
       selectedElement.value.index = elems[0].index
       await loadArticles()
     }
