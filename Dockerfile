@@ -1,11 +1,12 @@
 FROM node:16.15 as builder
 ARG VUE_APP_BASEURL
 ENV VUE_APP_BASEURL=$VUE_APP_BASEURL
+ENV NODE_ENV=build
 WORKDIR /usr/src/app
-COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
-RUN npm install --also=dev --include=dev --production=false --legacy-peer-deps 
 COPY . .
-RUN npm run build
+RUN npm install --legacy-peer-deps
+RUN npm install @popperjs/core --legacy-peer-deps
+RUN npm run build 
 RUN chown -R node /usr/src/app
 # USER node
 
