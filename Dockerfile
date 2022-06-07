@@ -13,5 +13,5 @@ RUN chown -R node /usr/src/app
 FROM nginx:1.21-alpine
 COPY --from=builder /usr/src/app/dist /usr/share/nginx/html
 EXPOSE 80
-USER nginx
+# USER nginx
 CMD ["nginx", "-g", "daemon off;"]
