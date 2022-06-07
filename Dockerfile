@@ -3,7 +3,7 @@ ARG VUE_APP_BASEURL
 ENV VUE_APP_BASEURL=$VUE_APP_BASEURL
 WORKDIR /usr/src/app
 COPY ["package.json", "package-nnlock.json*", "npm-shrinkwrap.json*", "./"]
-RUN npm ci
+RUN npm install --also=dev
 COPY . .
 RUN npm run build --if-present
 RUN chown -R node /usr/src/app
