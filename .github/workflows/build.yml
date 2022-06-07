@@ -6,21 +6,13 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
-  shortsha:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - id: shortsha
-        run: echo "::set-output name=shortsha::$(git rev-parse --short HEAD)"
-    outputs:
-      shortsha: ${{steps.shortsha.outputs.shortsha}}
 
   build:
     name: Build
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x]
+        node-version: [16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     steps:
       - uses: actions/checkout@v3
@@ -33,42 +25,16 @@ jobs:
       - run: npm run build --if-present
       # - run: npm test
 
-  sonarcloud:
-    name: SonarCloud
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-  pushImage:
-    name: PushImageToQUAY
-    runs-on: ubuntu-latest
-    needs: shortsha
-    steps:
-    - uses: actions/checkout@v3
-    - name: Build Image
-      id: build-image
-      uses: redhat-actions/buildah-build@v2
-      with:
-        image: frontend
-        tags: latest ${{ github.sha }}
-        containerfiles: |
-          ./Containerfile
-    - name: Push To quay.io
-      id: push-to-quay
-      uses: redhat-actions/push-to-registry@v2
-      with:
-        image: ${{ steps.build-image.outputs.image }}
-        # tags: ${{ steps.build-image.outputs.tags }}
-        tags: ${{ needs.shortsha.outputs.shortsha }}
-        registry: quay.io/tsmc-nycu-lab-13/frontend
-        username: tsmc-nycu-lab-13+quay
-        password: ${{ secrets.REGISTRY_PASSWORD }}
-    - name: Print image url
-      run: echo "Image pushed to ${{ steps.push-to-quay.outputs.registry-paths }}"
+  # sonarcloud:
+  #   name: SonarCloud
+  #   runs-on: ubuntu-latest
+  #   needs: build
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       with:
+  #         fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+  #     - name: SonarCloud Scan
+  #       uses: SonarSource/sonarcloud-github-action@master
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
