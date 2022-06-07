@@ -28,9 +28,10 @@ jobs:
       uses: redhat-actions/buildah-build@v2
       with:
         image: frontend
-        tags: latest ${{ github.sha }}
+        # tags: latest ${{ github.sha }}
+        tags: latest ${{ steps.build-image.outputs.tags }}
         containerfiles: |
-          ./Containerfile
+          ./Dockerfile
     - name: Push To quay.io
       id: push-to-quay
       uses: redhat-actions/push-to-registry@v2
