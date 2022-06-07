@@ -16,7 +16,7 @@ export default class Api {
 
   async getWeeklyStatistics (limit = 10) {
     const keywords = (await this.getKeywords()).data.keywords
-    return await axios.get(this._url(`/api/statistics?limit=${limit}` + keywords.map(w => `&keyword=${w}`).join('')))
+    return await axios.get(this._url(`/api/statistics?limit=${limit}` + keywords.map(w => `&keywords=${w}`).join('')))
     /* return {
       data: [
         {
