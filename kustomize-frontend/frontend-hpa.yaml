@@ -11,15 +11,16 @@ spec:
   minReplicas: 3
   maxReplicas: 10
   metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        averageUtilization: 75
-        type: Utilization
+  # https://github.com/kubernetes/kubernetes/issues/74099
   - type: Resource
     resource:
       name: memory
       target:
         averageUtilization: 80
+        type: Utilization
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        averageUtilization: 75
         type: Utilization
