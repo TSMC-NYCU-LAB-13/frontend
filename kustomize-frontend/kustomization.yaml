@@ -8,6 +8,9 @@ resources:
 - frontend-svc.yaml
 - frontend-vs.yaml
 - frontend-dr.yaml
+commonLabels:
+  app: frontend
+  app.kubernetes.io/name: frontend
 images:
 - name: quay.io/tsmc-nycu-lab-13/frontend
   newTag: c6c793f
