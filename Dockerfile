@@ -10,7 +10,7 @@ RUN npm run build
 RUN chown -R node /usr/src/app
 # USER node
 
-FROM nginx:1.21-alpine
+FROM nginx:1.22-alpine
 COPY --from=builder /usr/src/app/dist /usr/share/nginx/html
 EXPOSE 80
 # USER nginx
