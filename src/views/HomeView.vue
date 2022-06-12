@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>SupplyProbe</h1>
+    <h1>SupplyProbe-Canary</h1>
     <Bar
       :chart-data="data"
       chart-id="supplyProbe"
