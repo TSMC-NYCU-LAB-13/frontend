@@ -1,14 +1,52 @@
+# apiVersion: networking.istio.io/v1alpha3
+# kind: VirtualService
+# metadata:
+#   name: frontend
+#   namespace: tsmc-nycu-lab-13
+#   # namespace: istio-system
+# spec:
+#   hosts:
+#   - "tsmc.cwang.one"
+#   gateways:
+#   - gke-gateway.istio-system.svc.cluster.local
+#   http:
+#   - name: "backend-v1-routes"
+#     match:
+#     - uri:
+#         prefix: "/api"
+#     rewrite:
+#       uri: "/api"
+#     route:
+#     - destination:
+#         host: backend.tsmc-nycu-lab-13.svc.cluster.local
+#         port:
+#           number: 8080
+#   - name: "frontend-v1-routes"
+#     route:
+#     - destination:
+#         host: frontend.tsmc-nycu-lab-13.svc.cluster.local
+#         subset: stable
+#         port:
+#           number: 80
+#       weight: 100
+#     - destination:
+#         host: frontend.tsmc-nycu-lab-13.svc.cluster.local
+#         subset: canary
+#         port:
+#           number: 80
+#       weight: 0
+---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: frontend
-  namespace: tsmc-nycu-lab-13
-  # namespace: istio-system
+  # namespace: tsmc-nycu-lab-13
+  namespace: istio-system
 spec:
   hosts:
   - "tsmc.cwang.one"
   gateways:
-  - gke-gateway.istio-system.svc.cluster.local
+  - gke-gateway
   http:
   - name: "backend-v1-routes"
     match:
@@ -24,14 +62,12 @@ spec:
   - name: "frontend-v1-routes"
     route:
     - destination:
-        host: frontend.tsmc-nycu-lab-13.svc.cluster.local
-        subset: stable
+        host: frontend-stable.tsmc-nycu-lab-13.svc.cluster.local
         port:
           number: 80
       weight: 100
     - destination:
-        host: frontend.tsmc-nycu-lab-13.svc.cluster.local
-        subset: canary
+        host: frontend-canary.tsmc-nycu-lab-13.svc.cluster.local
         port:
           number: 80
       weight: 0
