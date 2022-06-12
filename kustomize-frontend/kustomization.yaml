@@ -10,4 +10,4 @@ resources:
 - frontend-dr.yaml
 images:
 - name: quay.io/tsmc-nycu-lab-13/frontend
-  newTag: 9afb35f
+  newTag: c6c793f
