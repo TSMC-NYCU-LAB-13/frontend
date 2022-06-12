@@ -1,24 +1,24 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: frontend
-  namespace: tsmc-nycu-lab-13
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: frontend
-  template:
-    metadata:
-      labels:
-        app: frontend
-    spec:
-      containers:
-      - image: quay.io/tsmc-nycu-lab-13/frontend
-        name: frontend
-        ports:
-        - containerPort: 80
-        resources:
-          requests:
-            memory: "50M"
-            cpu: "100m"
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: frontend
+#   namespace: tsmc-nycu-lab-13
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: frontend
+#   template:
+#     metadata:
+#       labels:
+#         app: frontend
+#     spec:
+#       containers:
+#       - image: quay.io/tsmc-nycu-lab-13/frontend
+#         name: frontend
+#         ports:
+#         - containerPort: 80
+#         resources:
+#           requests:
+#             memory: "50M"
+#             cpu: "100m"

@@ -1,12 +1,38 @@
+# apiVersion: autoscaling/v2beta2
+# kind: HorizontalPodAutoscaler
+# metadata:
+#   name: frontend
+#   namespace: tsmc-nycu-lab-13
+# spec:
+#   scaleTargetRef:
+#     apiVersion: apps/v1
+#     kind: Deployment
+#     name: frontend
+#   minReplicas: 3
+#   maxReplicas: 10
+#   metrics:
+#   # https://github.com/kubernetes/kubernetes/issues/74099
+#   - type: Resource
+#     resource:
+#       name: memory
+#       target:
+#         averageUtilization: 80
+#         type: Utilization
+#   - type: Resource
+#     resource:
+#       name: cpu
+#       target:
+#         averageUtilization: 75
+#         type: Utilization
+# ---
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
   name: frontend
-  namespace: tsmc-nycu-lab-13
 spec:
   scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
+    apiVersion: argoproj.io/v1alpha1
+    kind: Rollout
     name: frontend
   minReplicas: 3
   maxReplicas: 10
@@ -16,11 +42,11 @@ spec:
     resource:
       name: memory
       target:
-        averageUtilization: 80
+        averageUtilization: 90
         type: Utilization
   - type: Resource
     resource:
       name: cpu
       target:
-        averageUtilization: 75
+        averageUtilization: 90
         type: Utilization

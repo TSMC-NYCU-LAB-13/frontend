@@ -3,9 +3,11 @@ kind: Kustomization
 resources:
 - frontend-ns.yaml
 - frontend-deploy.yaml
+- frontend-rollout.yaml
 - frontend-hpa.yaml
 - frontend-svc.yaml
 - frontend-vs.yaml
+- frontend-dr.yaml
 images:
 - name: quay.io/tsmc-nycu-lab-13/frontend
   newTag: 9afb35f

@@ -1,0 +1,72 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: frontend
+  namespace: tsmc-nycu-lab-13
+spec:
+  # replicas: 3
+  revisionHistoryLimit: 30
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: quay.io/tsmc-nycu-lab-13/frontend
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            memory: "100M"
+            cpu: "1000m"
+  strategy:
+    canary:
+      canaryMetadata:
+        annotations:
+          role: canary
+        labels:
+          role: canary
+          version: canary
+      stableMetadata:
+        annotations:
+          role: stable
+        labels:
+          role: stable
+          version: stable
+      trafficRouting:
+        istio:
+          virtualService: 
+            # name: frontend.istio-system.svc.cluster.local
+            name: frontend.tsmc-nycu-lab-13.svc.cluster.local
+            routes:
+            - frontend-v1-routes
+          # https://github.com/argoproj/argo-rollouts/blob/3f5960efc21b5d8db44cbf20b779ab74d6fdaa99/utils/istio/istio.go#L40
+          destinationRule:
+            name: frontend
+            canarySubsetName: canary
+            stableSubsetName: stable
+      steps:
+      # - setWeight: 10
+      - setCanaryScale:
+          matchTrafficWeight: true
+      - setCanaryScale:
+          weight: 10
+      - pause:
+          duration: 30s
+      - setCanaryScale:
+          weight: 25
+      - pause:
+          duration: 30s
+      - setCanaryScale:
+          weight: 50
+      - pause: {}
+      - setCanaryScale:
+          weight: 80
+      - pause:
+          duration: 30s
+      - setCanaryScale:
+          weight: 100

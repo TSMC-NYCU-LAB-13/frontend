@@ -1,13 +1,14 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: frontend-vs
-  namespace: istio-system
+  name: frontend
+  namespace: tsmc-nycu-lab-13
+  # namespace: istio-system
 spec:
   hosts:
   - "tsmc.cwang.one"
   gateways:
-  - gke-gateway
+  - gke-gateway.istio-system.svc.cluster.local
   http:
   - name: "backend-v1-routes"
     match:
@@ -24,5 +25,13 @@ spec:
     route:
     - destination:
         host: frontend.tsmc-nycu-lab-13.svc.cluster.local
+        subset: stable
         port:
           number: 80
+      weight: 100
+    - destination:
+        host: frontend.tsmc-nycu-lab-13.svc.cluster.local
+        subset: canary
+        port:
+          number: 80
+      weight: 0
