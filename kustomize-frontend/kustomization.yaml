@@ -13,4 +13,4 @@ commonLabels:
   app.kubernetes.io/name: frontend
 images:
 - name: quay.io/tsmc-nycu-lab-13/frontend
-  newTag: 0b4a3be
+  newTag: 2bfc473
